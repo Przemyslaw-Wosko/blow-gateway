@@ -1,0 +1,38 @@
+{
+  "name": "blow-gateway",
+  "version": "0.1.0",
+  "description": "",
+  "main": "lib/blow-gateway.js",
+  "typings": "lib/blow-gateway.d.ts",
+  "scripts": {
+    "lint": "tslint -c tslint.json src/*.ts src/**/*.ts src/**/**/*.ts",
+    "pretest": "npm run build && tsc test/*.ts --module commonjs --target ES6 --experimentalDecorators --emitDecoratorMetadata",
+    "test": "mocha --harmony_default_parameters --harmony_destructuring",
+    "coverage": "npm run pretest && ./node_modules/.bin/istanbul cover _mocha --harmony_default_parameters --harmony_destructuring && npm run posttest",
+    "coverage:open": "open coverage/lcov-report/index.html",
+    "posttest": "find ./test -name '*.js' -type f -delete && find ./src -name '*.js' -type f -delete",
+    "watch:src": "tsc --watch",
+    "watch:lib": "nodemon --harmony_default_parameters --harmony_destructuring ./lib/blow-gateway.js",
+    "build": "tsc"
+  },
+  "keywords": [
+    "gateway",
+    "blow",
+    "typescript"
+  ],
+  "author": "Maciej Chmielarski <m.chmielarski@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "blow-server": "^0.1.3"
+  },
+  "devDependencies": {
+    "chai": "^3.4.1",
+    "istanbul": "^0.4.2",
+    "mocha": "^2.3.4",
+    "sinon": "^1.17.2"
+  },
+  "repository": {
+    "type": "github",
+    "url": "https://github.com/mchmielarski/blow-gateway"
+  }
+}

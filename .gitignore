@@ -1,0 +1,16 @@
+*~
+*.sw[mnpcod]
+*.log
+*.tmp
+*.tmp.*
+log.txt
+*.sublime-project
+*.sublime-workspace
+
+.vscode
+.tmp
+node_modules
+lib
+coverage
+
+.DS_Store
