@@ -24,7 +24,7 @@
   "license": "MIT",
   "dependencies": {
     "blow-server": "^0.1.5",
-    "blow-validate": "^0.1.7"
+    "blow-validate": "^0.1.9"
   },
   "devDependencies": {
     "chai": "^3.4.1",
