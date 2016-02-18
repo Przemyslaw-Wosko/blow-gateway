@@ -1,15 +1,24 @@
 import {createRoute} from '../server';
-import * as users from '../services/data/users';
+import {UserModel} from '../data/users';
+import {removeProperties} from '../utils';
 
-const usersRoute = createRoute('/users');
+export class UserRaw {
+  public email: string;
+  public password: string;
+  public name: string;
+}
 
-usersRoute
+const hideProperties = removeProperties(['password']);
+
+createRoute('/users')
   .get(({response}) => {
-    response.body = {
-      hello: 'world'
-    };
+    return UserModel.find()
+      .map(hideProperties)
+      .toArray()
+      .do(users => response.body = users);
   })
   .post(({request, response}) => {
-    return users.create(request.body)
+    return UserModel.create(request.body)
+      .map(hideProperties)
       .do(user => response.body = user);
   });

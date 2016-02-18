@@ -18,8 +18,9 @@ if (httpSettings) {
 export const server: Blow = Blow.create(settings);
 export const http: HttpServer = server.http;
 export const createRoute: (path: string) => RouteBuilder = http.route.bind(http);
-export const createCollection: <T>(collectionName: string, connection?: string) => Collection<T>
+export const getCollection: <T>(collectionName: string, connection?: string) => Collection<T>
   = server.dataService.collection.bind(server.dataService);
+
 
 if (pluginsSettings.requestId) {
   http.use(handlers.requestId());

@@ -23,7 +23,8 @@
   "author": "Maciej Chmielarski <m.chmielarski@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "blow-server": "^0.1.3"
+    "blow-server": "^0.1.5",
+    "blow-validate": "^0.1.7"
   },
   "devDependencies": {
     "chai": "^3.4.1",
