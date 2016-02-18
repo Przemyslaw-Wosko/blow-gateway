@@ -20,3 +20,12 @@ createRoute('/users')
       .map(hideProperties)
       .do(setResponse(response));
   });
+
+createRoute('/users/:id')
+
+  // user details
+  .get(({request, response}) => {
+    return UserModel.get(request.params['id'])
+      .map(hideProperties)
+      .do(setResponse(response));
+  });

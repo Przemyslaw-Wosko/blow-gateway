@@ -10,11 +10,16 @@ import {
   compare as comparePasswords
 } from '../utils/bcrypt';
 
-export class UserRaw {
-  public _id: string;
-  public email: string;
-  public password: string;
-  public name: string;
+export interface TokenRaw {
+  token: string;
+}
+
+export interface UserRaw {
+  _id?: string;
+  email: string;
+  password: string;
+  name?: string;
+  groups?: string[];
 }
 
 const collection: Collection<UserRaw> = getCollection<UserRaw>('users');
@@ -64,6 +69,34 @@ const validationCustomResults = {
 
 export class UserModel {
 
+  public _id: string;
+  public email: string;
+  public password: string;
+  public name: string;
+  public groups: string[];
+
+  constructor({_id, email, password, name, groups}: UserRaw) {
+    this._id = _id;
+    this.email = email;
+    this.password = password;
+    this.name = name;
+    this.groups = groups || [];
+  }
+
+  save(): Observable<UserRaw> {
+    return collection.save(this.toJSON());
+  }
+
+  toJSON() {
+    return copyProperties([
+      '_id',
+      'email',
+      'password',
+      'name',
+      'groups'
+    ])({})(this);
+  }
+
   static create(data: UserRaw): Observable<UserRaw | ValidationResult> {
     const save = hashPassword(data.password)
       .map(setProperty('password')(data))
@@ -82,7 +115,11 @@ export class UserModel {
     return collection.find(query);
   }
 
-  static login(email: string, password: string) {
+  static get(id: string): Observable<UserRaw> {
+    return collection.get(id);
+  }
+
+  static login(email: string, password: string): Observable<TokenRaw | ValidationResult> {
     const checkPassword = user => comparePasswords(password, user.password)
       .filter(isTrue)
       .mapTo(user);
@@ -98,7 +135,7 @@ export class UserModel {
       .mergeMap(ifValid(find));
   }
 
-  static createToken(user) {
+  static createToken(user): Observable<TokenRaw> {
     const payload = copyProperties(['_id', 'email', 'name'])({})(user);
     return sign(payload).map(token => ({ token }));
   }
